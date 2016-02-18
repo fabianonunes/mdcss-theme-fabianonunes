@@ -75,7 +75,11 @@ examples.lang = {
 		// get wrap
 		var wrap = pre.parentNode.insertBefore(document.createElement('div'), pre);
 		wrap.classList.add("iframe-wrapper")
-		wrap.innerHTML = '<div class="responsive-bar"><img data-width="340" src="xs.png"><img data-width="768" src="sm.png"><img data-width="992" src="md.png"><img data-width="1100" src="lg.png"></div>'
+		wrap.innerHTML = '<div class="responsive-bar"><img data-width="340" ' +
+		'src="xs.png"><img data-width="768" src="sm.png"><img data-width="992" ' +
+		'src="md.png"><img data-width="1100" src="lg.png"></div>' +
+		'<div class="drag-handler">𝄁</div>' +
+		'<div class="drag-mask"></div>'
 
 		var iframe = wrap.appendChild(document.createElement('iframe'));
 		var style  = iframe.style;
@@ -139,9 +143,46 @@ examples.lang = {
 
 		setInterval(resize, 334);
 
+
+
 		$('.responsive-bar').on('click', 'img', function () {
 			var $this = $(this)
 			$this.closest('.iframe-wrapper').width($this.data('width'))
+		})
+
+		var $dragHandler = $('.drag-handler')
+		$dragHandler.draggabilly({
+			axis: 'x'
+		})
+		.on('pointerDown', function () {
+
+			var $dragHandler = $(this)
+
+			var $container = $dragHandler.closest('.iframe-wrapper'),
+				$mask = $container.find('.drag-mask'),
+				container_width = $container.width()
+
+			$mask.show()
+			$container.addClass('is-dragging')
+
+			$dragHandler
+				.css({left: container_width - $dragHandler.outerWidth()})
+				.data('container', $container)
+				.data('mask', $mask)
+				.data('container-width', container_width)
+		})
+		.on('dragMove', function (evt, pointer, vector) {
+			var $dragHandler = $(this)
+
+			$dragHandler.data('container').width(
+				$dragHandler.data('container-width')+vector.x
+			)
+		})
+		.on('dragEnd', function () {
+			var $dragHandler = $(this)
+
+			$dragHandler.data('container').removeClass('is-dragging')
+			$dragHandler.removeAttr('style').data('mask').hide()
 		})
 	}
 };

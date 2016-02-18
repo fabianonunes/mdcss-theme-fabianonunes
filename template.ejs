@@ -4,7 +4,9 @@
 <% opts.css.forEach(function (href) {
 	%><link href="<%= href %>" rel="stylesheet"><%
 }); %>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic|Inconsolata:400,700|Ubuntu+Mono:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <script src="jquery-2.2.0.min.js"></script>
+<script src="draggabilly.js"></script>
 <script>examples=<%- JSON.stringify(opts.examples) %>;</script>
 <% opts.js.forEach(function (src) {
 	%><script src="<%= src %>"></script><%
