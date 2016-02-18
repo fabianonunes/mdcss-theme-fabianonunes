@@ -73,9 +73,11 @@ examples.lang = {
 	},
 	html: function (pre, value, conf) {
 		// get wrap
-		var wrap = pre.parentNode;
+		var wrap = pre.parentNode.insertBefore(document.createElement('div'), pre);
+		wrap.classList.add("iframe-wrapper")
+		wrap.innerHTML = '<div class="responsive-bar"><img data-width="340" src="xs.png"><img data-width="768" src="sm.png"><img data-width="992" src="md.png"><img data-width="1100" src="lg.png"></div>'
 
-		var iframe = wrap.insertBefore(document.createElement('iframe'), pre);
+		var iframe = wrap.appendChild(document.createElement('iframe'));
 		var style  = iframe.style;
 
 		// get iframe dom
@@ -136,5 +138,10 @@ examples.lang = {
 		resize();
 
 		setInterval(resize, 334);
+
+		$('.responsive-bar').on('click', 'img', function () {
+			var $this = $(this)
+			$this.closest('.iframe-wrapper').width($this.data('width'))
+		})
 	}
 };

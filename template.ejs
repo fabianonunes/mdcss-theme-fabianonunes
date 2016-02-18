@@ -4,6 +4,7 @@
 <% opts.css.forEach(function (href) {
 	%><link href="<%= href %>" rel="stylesheet"><%
 }); %>
+<script src="jquery-2.2.0.min.js"></script>
 <script>examples=<%- JSON.stringify(opts.examples) %>;</script>
 <% opts.js.forEach(function (src) {
 	%><script src="<%= src %>"></script><%
