@@ -28,9 +28,10 @@ module.exports = function (themeopts) {
 		css:     ['style.css'],
 		js:      [],
 		bodyjs:  [],
-		htmlcss: 'background:none;border:0;clip:auto;display:block;height:auto;margin:0;padding:0;position:static;width:auto',
-		bodycss: 'background:none;border:0;clip:auto;display:block;height:auto;margin:0;padding:16px;position:static;width:auto'
+		htmlcss: 'background:none;border:0;clip:auto;display:block;height:auto;margin:0;padding:0;position:static;width:auto;overflow:hidden',
+		bodycss: 'background:none;border:0;clip:auto;display:block;height:auto;margin:0;padding:16px;position:static;width:auto;overflow:hidden'
 	}, themeopts.examples);
+
 
 	// return theme
 	return function (docs) {
@@ -53,31 +54,32 @@ module.exports = function (themeopts) {
 
 					docs.list.forEach(function (obj) {
 
-
 						if (obj.children) {
-
-							console.log('-')
 
 							obj.children.forEach(function (child) {
 
-								var $content = $(child.content);
+								var $content = $('<div id="_wrapper_">' + child.content + '</div>');
+
+								$content.find("pre").each(function () {
+									$('<div class="codecollapse">···</div>').insertAfter($(this))
+								})
+
 								var content = $content.find("code[class='lang-example:jade']").each(function (i, code) {
 									var $code = $(code);
 									var jadestring = $.parseHTML($code.text())[0].data;
 									var template = jade.compile($code.text(), {pretty: '  '});
-									$code.text(template());
+									$code.text(template().trim());
 									$code.attr('class', 'lang-example:html');
 								});
 
-								if (content.length) {
-									child.content = $.html($content);
+								if ($content.length) {
+									child.content = $content.html();
 								}
 
 							});
 
 						}
 					});
-
 
 					// set compiled template
 					docs.template = ejs.compile(contents)(docs);

@@ -105,7 +105,7 @@ examples.lang = {
 			return '<script src="' + js + '"></script>';
 		}).join('');
 
-		html += value;
+		html += "<div id=contentWrapper>"+value+"<div>";
 
 		html += examples.bodyjs.map(function (js) {
 			return '<script src="' + js + '"></script>';
@@ -118,6 +118,7 @@ examples.lang = {
 		// add default block styles to iframe dom
 		idoc.documentElement.setAttribute('style', examples.htmlcss);
 		idoc.body.setAttribute('style', examples.bodycss);
+		idoc.body.setAttribute('id', 'sfcss');
 
 		if (conf.width) style.width = String(conf.width);
 
@@ -126,7 +127,7 @@ examples.lang = {
 		var scrollHeight;
 
 		function resize() {
-			var currentScrollHeight = documentElement.scrollHeight;
+			var currentScrollHeight = idoc.getElementById('contentWrapper').offsetHeight;
 
 			if (scrollHeight !== currentScrollHeight) {
 				scrollHeight = currentScrollHeight;
@@ -143,46 +144,5 @@ examples.lang = {
 
 		setInterval(resize, 334);
 
-
-
-		$('.responsive-bar').on('click', 'img', function () {
-			var $this = $(this)
-			$this.closest('.iframe-wrapper').width($this.data('width'))
-		})
-
-		var $dragHandler = $('.drag-handler')
-		$dragHandler.draggabilly({
-			axis: 'x'
-		})
-		.on('pointerDown', function () {
-
-			var $dragHandler = $(this)
-
-			var $container = $dragHandler.closest('.iframe-wrapper'),
-				$mask = $container.find('.drag-mask'),
-				container_width = $container.width()
-
-			$mask.show()
-			$container.addClass('is-dragging')
-
-			$dragHandler
-				.css({left: container_width - $dragHandler.outerWidth()})
-				.data('container', $container)
-				.data('mask', $mask)
-				.data('container-width', container_width)
-		})
-		.on('dragMove', function (evt, pointer, vector) {
-			var $dragHandler = $(this)
-
-			$dragHandler.data('container').width(
-				$dragHandler.data('container-width')+vector.x
-			)
-		})
-		.on('dragEnd', function () {
-			var $dragHandler = $(this)
-
-			$dragHandler.data('container').removeClass('is-dragging')
-			$dragHandler.removeAttr('style').data('mask').hide()
-		})
 	}
 };

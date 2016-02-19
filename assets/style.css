@@ -130,6 +130,7 @@ styles are used to create a seamless effect with the styleguide.
 pre {
 	font-family: 'Inconsolata', ;
 	font-family: 'Ubuntu Mono', ;
+	display: none;
 }
 
 body {
@@ -716,4 +717,12 @@ perferendis quam! Ullam, debitis ab maiores.
   left: 0;
   right: 0;
   bottom: 0;
+}
+
+.codecollapse {
+	display: inline-block;
+	padding: 5px;
+	background: #eee;
+	line-height: 4px;
+	cursor: pointer;
 }
