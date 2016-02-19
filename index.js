@@ -56,18 +56,20 @@ module.exports = function (themeopts) {
 
 						if (obj.children) {
 
+							console.log('-')
 
 							obj.children.forEach(function (child) {
+
 								var $content = $(child.content);
-								var content = $content.find("code[class='lang-example:jade']");
+								var content = $content.find("code[class='lang-example:jade']").each(function (i, code) {
+									var $code = $(code);
+									var jadestring = $.parseHTML($code.text())[0].data;
+									var template = jade.compile($code.text(), {pretty: '  '});
+									$code.text(template());
+									$code.attr('class', 'lang-example:html');
+								});
+
 								if (content.length) {
-									content.each(function (i, code) {
-										var $code = $(code);
-										var jadestring = $.parseHTML($code.text())[0].data;
-										var template = jade.compile($code.text(), {pretty: '  '});
-										$code.text(template());
-										$code.attr('class', 'lang-example:html');
-									});
 									child.content = $.html($content);
 								}
 
