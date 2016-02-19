@@ -64,7 +64,7 @@ module.exports = function (themeopts) {
 									content.each(function (i, code) {
 										var $code = $(code);
 										var jadestring = $.parseHTML($code.text())[0].data;
-										var template = jade.compile(jadestring);
+										var template = jade.compile($code.text(), {pretty: '  '});
 										$code.text(template());
 										$code.attr('class', 'lang-example:html');
 									});
