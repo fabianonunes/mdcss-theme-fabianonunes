@@ -2,6 +2,8 @@ var ejs  = require('ejs');
 var ext  = require('object-assign');
 var fs   = require('fs');
 var path = require('path');
+var $    = require('cheerio');
+var jade = require('jade');
 
 module.exports = function (themeopts) {
 	// set theme options object
@@ -48,6 +50,32 @@ module.exports = function (themeopts) {
 				else {
 					// set examples options
 					docs.opts = ext({}, docs.opts, docs.themeopts);
+
+					docs.list.forEach(function (obj) {
+
+
+						if (obj.children) {
+
+
+							obj.children.forEach(function (child) {
+								var $content = $(child.content);
+								var content = $content.find("code[class='lang-example:jade']");
+								if (content.length) {
+									content.each(function (i, code) {
+										var $code = $(code);
+										var jadestring = $.parseHTML($code.text())[0].data;
+										var template = jade.compile($code.text(), {pretty: '  '});
+										$code.text(template());
+										$code.attr('class', 'lang-example:html');
+									});
+									child.content = $.html($content);
+								}
+
+							});
+
+						}
+					});
+
 
 					// set compiled template
 					docs.template = ejs.compile(contents)(docs);
