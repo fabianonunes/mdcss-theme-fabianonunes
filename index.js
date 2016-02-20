@@ -52,34 +52,7 @@ module.exports = function (themeopts) {
 					// set examples options
 					docs.opts = ext({}, docs.opts, docs.themeopts);
 
-					docs.list.forEach(function (obj) {
-
-						if (obj.children) {
-
-							obj.children.forEach(function (child) {
-
-								var $content = $('<div id="_wrapper_">' + child.content + '</div>');
-
-								$content.find("pre").each(function () {
-									$('<div class="codecollapse">···</div>').insertAfter($(this))
-								})
-
-								var content = $content.find("code[class='lang-example:jade']").each(function (i, code) {
-									var $code = $(code);
-									var jadestring = $.parseHTML($code.text())[0].data;
-									var template = jade.compile($code.text(), {pretty: '  '});
-									$code.text(template().trim());
-									$code.attr('class', 'lang-example:html');
-								});
-
-								if ($content.length) {
-									child.content = $content.html();
-								}
-
-							});
-
-						}
-					});
+					docs.list.forEach(parseJade);
 
 					// set compiled template
 					docs.template = ejs.compile(contents)(docs);
@@ -91,5 +64,39 @@ module.exports = function (themeopts) {
 		});
 	};
 };
+
+function parseJade (obj) {
+
+	if (obj.children) {
+
+		obj.children.forEach(function (child) {
+
+			var $content = $('<div id="_wrapper_">' + child.content + '</div>');
+
+			$content.find("pre").each(function () {
+				$('<div class="codecollapse">···</div>').insertAfter($(this));
+			});
+
+			var content = $content.find("code[class='lang-example:jade']").each(function (i, code) {
+				var $code = $(code);
+				var jadestring = $.parseHTML($code.text())[0].data;
+				var template = jade.compile($code.text(), {pretty: '  '});
+				$code.text(template().trim());
+				$code.attr('class', 'lang-example:html');
+			});
+
+			if ($content.length) {
+				child.content = $content.html();
+			}
+
+			if (child.children) {
+				parseJade(child);
+			}
+
+		});
+
+	}
+
+}
 
 module.exports.type = 'mdcss-theme';
