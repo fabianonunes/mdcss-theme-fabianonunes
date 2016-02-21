@@ -15,9 +15,12 @@
   "homepage": "https://github.com/jonathantneal/mdcss-github-theme#readme",
   "dependencies": {
     "cheerio": "^0.20.0",
+    "draggabilly": "^2.1.0",
     "ejs": "^2.4.1",
     "jquery": "^2.2.0",
-    "object-assign": "^4.0.1"
+    "object-assign": "^4.0.1",
+    "prism": "^1.0.0",
+    "webpack": "^1.12.13"
   },
   "devDependencies": {
     "chokidar": "^1.4.2",

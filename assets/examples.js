@@ -1,148 +1,155 @@
-examples.lang = {
-	color: function (pre, value) {
-		var colors = pre.parentNode.insertBefore(document.createElement('div'), pre);
-		var lines = value.trim().split(/\n+/);
+// jshint browser:true
 
-		colors.className = 'colors';
+'use strict'
 
-		lines.map(parseLine).map(parseColor).forEach(colors.appendChild, colors);
+var $ = require('jquery')
 
-		function parseLine(line) {
-			line = line.trim();
+module.exports.lang = {
+  color: function ($pre, value) {
+    var $colors = $('<div/>').insertBefore($pre)
+    var lines = value.trim().split(/\n+/);
 
-			var color = {};
-			var match = /@([^:]+):\s*(.+?)(?=\s+@|$)/g;
-			var prop;
+    $colors.addClass('colors')
 
-			while (prop = match.exec(line)) color[prop[1]] = prop[2];
+    lines.map(parseLine).map(parseColor).forEach(colors.appendChild, colors);
 
-			return color;
-		}
+    function parseLine(line) {
+      line = line.trim();
 
-		function parseColor(color) {
-			var colorNode = document.createElement('div');
+      var color = {};
+      var match = /@([^:]+):\s*(.+?)(?=\s+@|$)/g;
+      var prop;
 
-			colorNode.className = 'color';
+      while (prop = match.exec(line)) color[prop[1]] = prop[2];
 
-			var swatchNode = colorNode.appendChild(document.createElement('div'));
+      return color;
+    }
 
-			swatchNode.className = 'color-swatch';
+    function parseColor(color) {
+      var colorNode = document.createElement('div');
 
-			swatchNode.style.backgroundColor = color.color;
+      colorNode.className = 'color';
 
-			var contrastColor = contrast(color.color);
+      var swatchNode = colorNode.appendChild(document.createElement('div'));
 
-			swatchNode.style.color = contrastColor;
+      swatchNode.className = 'color-swatch';
 
-			swatchNode.style.textShadow = '0 0 1px ' + (contrastColor === '#ffffff' ? '#000000' : '#ffffff');
+      swatchNode.style.backgroundColor = color.color;
 
-			swatchNode.appendChild(document.createTextNode(color.color));
+      var contrastColor = contrast(color.color);
 
-			Object.keys(color).filter(function (key) { return key !== 'color' }).forEach(function (key) {
-				var propertyNode = colorNode.appendChild(document.createElement('div'));
+      swatchNode.style.color = contrastColor;
 
-				propertyNode.className = 'color-property';
+      swatchNode.style.textShadow = '0 0 1px ' + (contrastColor === '#ffffff' ? '#000000' : '#ffffff');
 
-				propertyNode.setAttribute('data-name', key);
+      swatchNode.appendChild(document.createTextNode(color.color));
 
-				propertyNode.appendChild(document.createTextNode(color[key]));
-			});
+      Object.keys(color).filter(function (key) { return key !== 'color' }).forEach(function (key) {
+        var propertyNode = colorNode.appendChild(document.createElement('div'));
 
-			return colorNode;
-		}
+        propertyNode.className = 'color-property';
 
-		function hex2rgb(hex) {
-			var bigint = parseInt(hex.slice(1).replace(/^([0-9a-f])([0-9a-f])([0-9a-f])$/i, '$1$1$2$2$3$3'), 16);
-			var r = (bigint >> 16) & 255;
-			var g = (bigint >> 8) & 255;
-			var b = bigint & 255;
+        propertyNode.setAttribute('data-name', key);
 
-			return [r, g, b];
-		}
+        propertyNode.appendChild(document.createTextNode(color[key]));
+      });
 
-		function getRGB(color) {
-			return /^#/.test(color) ? hex2rgb(color) : color.replace(/[^\d,]+/g, '').split(/,/).map(function (part) { return part * 1; });
-		}
+      return colorNode;
+    }
 
-		function contrast(color) {
-			var rgb = getRGB(color);
-			var o   = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000);
+    function hex2rgb(hex) {
+      var bigint = parseInt(hex.slice(1).replace(/^([0-9a-f])([0-9a-f])([0-9a-f])$/i, '$1$1$2$2$3$3'), 16);
+      var r = (bigint >> 16) & 255;
+      var g = (bigint >> 8) & 255;
+      var b = bigint & 255;
 
-			return o <= 180 ? '#ffffff' : '#000000';
-		}
-	},
-	html: function (pre, value, conf) {
-		// get wrap
-		var wrap = pre.parentNode.insertBefore(document.createElement('div'), pre);
-		wrap.classList.add("iframe-wrapper")
-		wrap.innerHTML = '<div class="responsive-bar"><img data-width="340" ' +
-		'src="xs.png"><img data-width="768" src="sm.png"><img data-width="992" ' +
-		'src="md.png"><img data-width="1100" src="lg.png"></div>' +
-		'<div class="drag-handler">𝄁</div>' +
-		'<div class="drag-mask"></div>'
+      return [r, g, b];
+    }
 
-		var iframe = wrap.appendChild(document.createElement('iframe'));
-		var style  = iframe.style;
+    function getRGB(color) {
+      return /^#/.test(color) ? hex2rgb(color) : color.replace(/[^\d,]+/g, '').split(/,/).map(function (part) { return part * 1; });
+    }
 
-		// get iframe dom
-		var iwin = iframe.contentWindow;
-		var idoc = iwin.document;
+    function contrast(color) {
+      var rgb = getRGB(color);
+      var o   = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000);
 
-		// write example content to iframe
-		idoc.open();
+      return o <= 180 ? '#ffffff' : '#000000';
+    }
+  },
 
-		var html = '<base' + (
-			examples.base && ' href="' + examples.base + '"'
-		) + (
-			examples.target && ' target="' + examples.target + '"'
-		) + '>';
+  html: function (pre, value, conf) {
+    // get wrap
+    var wrap = pre.parentNode.insertBefore(document.createElement('div'), pre);
+    wrap.classList.add('iframe-wrapper')
+    wrap.innerHTML = '<div class="responsive-bar"><img data-width="340" ' +
+    'src="xs.png"><img data-width="768" src="sm.png"><img data-width="992" ' +
+    'src="md.png"><img data-width="1100" src="lg.png"></div>' +
+    '<div class="drag-handler">𝄁</div>' +
+    '<div class="drag-mask"></div>'
 
-		html += examples.css.map(function (css) {
-			return '<link href="' + css + '" rel="stylesheet">';
-		}).join('');
+    var iframe = wrap.appendChild(document.createElement('iframe'));
+    var style  = iframe.style;
 
-		html += examples.js.map(function (js) {
-			return '<script src="' + js + '"></script>';
-		}).join('');
+    // get iframe dom
+    var iwin = iframe.contentWindow;
+    var idoc = iwin.document;
 
-		html += "<div id=contentWrapper>"+value+"<div>";
+    // write example content to iframe
+    idoc.open();
 
-		html += examples.bodyjs.map(function (js) {
-			return '<script src="' + js + '"></script>';
-		}).join('');
+    var html = '<base' + (
+    examples.base && ' href="' + examples.base + '"'
+    ) + (
+    examples.target && ' target="' + examples.target + '"'
+    ) + '>';
 
-		idoc.write(html);
+    html += examples.css.map(function (css) {
+      return '<link href="' + css + '" rel="stylesheet">';
+    }).join('');
 
-		idoc.close();
+    html += examples.js.map(function (js) {
+      return '<script src="' + js + '"></script>';
+    }).join('');
 
-		// add default block styles to iframe dom
-		idoc.documentElement.setAttribute('style', examples.htmlcss);
-		idoc.body.setAttribute('style', examples.bodycss);
-		idoc.body.setAttribute('id', 'sfcss');
+    html += '<div id=contentWrapper>' + value + '<div>';
 
-		if (conf.width) style.width = String(conf.width);
+    html += examples.bodyjs.map(function (js) {
+      return '<script src="' + js + '"></script>';
+    }).join('');
 
-		// set iframe height based on content
-		var documentElement = idoc.documentElement;
-		var scrollHeight;
+    idoc.write(html);
 
-		function resize() {
-			var currentScrollHeight = idoc.getElementById('contentWrapper').offsetHeight;
+    idoc.close();
 
-			if (scrollHeight !== currentScrollHeight) {
-				scrollHeight = currentScrollHeight;
+    // add default block styles to iframe dom
+    idoc.documentElement.setAttribute('style', examples.htmlcss);
+    idoc.body.setAttribute('style', examples.bodycss);
+    idoc.body.setAttribute('id', 'sfcss');
 
-				style.height = 0;
+    if (conf.width) style.width = String(conf.width);
 
-				style.height = documentElement.scrollHeight + (iframe.offsetHeight - iwin.innerHeight) + 'px';
-			}
-		}
+    // set iframe height based on content
+    var documentElement = idoc.documentElement;
+    var scrollHeight;
 
-		iwin.addEventListener('load', resize);
+    function resize() {
+      var currentScrollHeight = idoc.getElementById('contentWrapper').offsetHeight;
 
-		resize();
+      if (scrollHeight !== currentScrollHeight) {
+        scrollHeight = currentScrollHeight;
 
-		setInterval(resize, 334);
+        style.height = 0;
 
-	}
+        style.height = documentElement.scrollHeight + (iframe.offsetHeight - iwin.innerHeight) + 'px';
+      }
+    }
+
+    iwin.addEventListener('load', resize);
+
+    resize();
+
+    setInterval(resize, 334);
+
+  }
 };
