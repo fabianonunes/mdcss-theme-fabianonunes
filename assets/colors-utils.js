@@ -26,6 +26,7 @@ var colorUtils = {
     var contrastColor = colorUtils.contrast(color.color)
 
     $color.addClass('color')
+
     $swatch.addClass('color-swatch').css({
       backgroundColor: color.color,
       color: contrastColor,
@@ -42,7 +43,7 @@ var colorUtils = {
         $('<div/>')
           .appendTo($color)
           .addClass('color-property')
-          .data('name', key)
+          .attr('data-name', key)
           .append(color[key])
       })
 
@@ -73,7 +74,7 @@ var colorUtils = {
   contrast: function (color) {
     var rgb = colorUtils.getRGB(color)
     var o   = Math.round(
-      ((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000
+      (parseInt(rgb[0]) * 299 + parseInt(rgb[1]) * 587 + parseInt(rgb[2]) * 114) / 1000
     )
     return o <= 180 ? '#ffffff' : '#000000'
   }

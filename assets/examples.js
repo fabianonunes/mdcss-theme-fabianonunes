@@ -21,7 +21,9 @@ module.exports.lang = {
     lines
       .map(colorsUtils.parseLine)
       .map(colorsUtils.parseColor)
-      .forEach($colors.append, $colors)
+      .forEach(function ($color) {
+        $colors.append($color)
+      })
   },
 
   html: function ($pre, value, conf) {
