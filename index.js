@@ -11,7 +11,7 @@ module.exports = function (themeopts) {
 	themeopts = Object(themeopts);
 
 	// set theme logo
-	themeopts.logo = themeopts.logo || 'mdcss-logo.png';
+	themeopts.logo = themeopts.logo || 'images/mdcss-logo.png';
 
 	// set theme title
 	themeopts.title = themeopts.title || 'Style Guide';
