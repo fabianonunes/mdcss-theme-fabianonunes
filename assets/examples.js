@@ -1,4 +1,4 @@
-/* global examples */
+/* global examples, window */
 
 'use strict'
 
@@ -6,7 +6,7 @@ var $ = require('jquery')
 var colorsUtils = require('./colors-utils')
 
 var templates = {
-  responsiveBar: require('./templates/responsive-bar.jade'),
+  wrapper: require('./templates/wrapper.jade'),
   iframe: require('./templates/iframe.jade')
 }
 
@@ -28,13 +28,13 @@ module.exports.lang = {
 
   html: function ($pre, value, conf) {
 
-    var $wrap = $('<div/>').insertBefore($pre)
-    $wrap.addClass('iframe-wrapper')
-    $wrap.html(templates.responsiveBar())
+    var $wrap = $(templates.wrapper(conf)).insertBefore($pre)
 
-    var $iframe = $('<iframe></iframe>').appendTo($wrap)
+    var $iframe = $wrap.find('iframe')
     var iwin = $iframe[0].contentWindow
     var idoc = iwin.document
+
+    iwin._containerIframe = $iframe
 
     idoc.open()
     idoc.write(templates.iframe({
@@ -42,32 +42,6 @@ module.exports.lang = {
       value: value
     }))
     idoc.close()
-
-    // add default block styles to iframe dom
-    idoc.documentElement.setAttribute('style', examples.htmlcss)
-    idoc.body.setAttribute('style', examples.bodycss)
-    idoc.body.setAttribute('id', 'sfcss')
-
-    if (conf.width) {
-      $iframe.css({ width: String(conf.width) })
-    }
-
-    var documentElement = idoc.documentElement
-    var scrollHeight
-
-    function resize() {
-      var currentScrollHeight = idoc.getElementById('contentWrapper').offsetHeight
-      if (scrollHeight !== currentScrollHeight) {
-        scrollHeight = currentScrollHeight
-        $iframe.css({ height: 0 })
-        var iframeH = documentElement.scrollHeight + ($iframe[0].offsetHeight - iwin.innerHeight)
-        $iframe.css({ height: iframeH + 'px' })
-      }
-    }
-
-    iwin.addEventListener('load', resize)
-    resize()
-    setInterval(resize, 16)
 
   }
 }

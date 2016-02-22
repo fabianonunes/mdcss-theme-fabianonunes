@@ -61,8 +61,6 @@ module.exports = function (themeopts) {
           // set compiled template
           docs.template = jade.compile(contents, {})(docs)
 
-          console.log(docs.template)
-
           // resolve docs
           resolve(docs)
         }
