@@ -30,7 +30,7 @@ module.exports = function () {
       var $container = $dragHandler.closest('.iframe-wrapper')
       var containerWidth = $container.width()
 
-      // show all masks to prevent mouse lose focus on passing over other iframes
+      // show all masks to prevent mouse losing focus on passing over other iframes
       $masks.show()
 
       $container.addClass('is-dragging')
