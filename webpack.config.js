@@ -1,16 +1,14 @@
 
 var webpack = require('webpack')
+var path = require('path')
 
 module.exports = {
   entry: {
     assets: ['./assets/main']
   },
   output: {
-    path: __dirname + '/assets',
+    path: path.join(__dirname, 'assets'),
     filename: '[name].min.js'
-  },
-  externals: {
-    // jquery: 'jQuery'
   },
   module: {
     loaders: [
