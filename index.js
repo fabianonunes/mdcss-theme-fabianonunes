@@ -1,16 +1,17 @@
+'use strict';
+
 var ejs  = require('ejs');
 var ext  = require('object-assign');
 var fs   = require('fs');
 var path = require('path');
-var $    = require('cheerio');
-var jade = require('jade');
+var parseJade = require('./parse-jade')
 
 module.exports = function (themeopts) {
 	// set theme options object
 	themeopts = Object(themeopts);
 
 	// set theme logo
-	themeopts.logo = themeopts.logo || 'mdcss-logo.png';
+	themeopts.logo = themeopts.logo || 'images/mdcss-logo.png';
 
 	// set theme title
 	themeopts.title = themeopts.title || 'Style Guide';
@@ -47,8 +48,9 @@ module.exports = function (themeopts) {
 			// read template
 			fs.readFile(docs.template, 'utf8', function (error, contents) {
 				// throw if template could not be read
-				if (error) reject(error);
-				else {
+				if (error) {
+			 		reject(error);
+				} else {
 					// set examples options
 					docs.opts = ext({}, docs.opts, docs.themeopts);
 
@@ -65,38 +67,5 @@ module.exports = function (themeopts) {
 	};
 };
 
-function parseJade (obj) {
-
-	if (obj.children) {
-
-		obj.children.forEach(function (child) {
-
-			var $content = $('<div id="_wrapper_">' + child.content + '</div>');
-
-			$content.find("pre").each(function () {
-				$('<div class="codecollapse">···</div>').insertAfter($(this));
-			});
-
-			var content = $content.find("code[class='lang-example:jade']").each(function (i, code) {
-				var $code = $(code);
-				var jadestring = $.parseHTML($code.text())[0].data;
-				var template = jade.compile($code.text(), {pretty: '  '});
-				$code.text(template().trim());
-				$code.attr('class', 'lang-example:html');
-			});
-
-			if ($content.length) {
-				child.content = $content.html();
-			}
-
-			if (child.children) {
-				parseJade(child);
-			}
-
-		});
-
-	}
-
-}
 
 module.exports.type = 'mdcss-theme';
