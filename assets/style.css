@@ -691,7 +691,7 @@ perferendis quam! Ullam, debitis ab maiores.
 
 .drag-handler {
 	position: absolute;
-	right: 0px;
+	right: -8px;
 	top: 0px;
 	bottom: 0px;
 	cursor: ew-resize;

@@ -32,7 +32,7 @@ module.exports = function () {
       $mask.show()
       $container.addClass('is-dragging')
       $dragHandler
-        .css({ left: containerWidth - $dragHandler.outerWidth() })
+        .css({ left: containerWidth })
         .data('container', $container)
         .data('mask', $mask)
         .data('container-width', containerWidth)
@@ -43,8 +43,11 @@ module.exports = function () {
       )
     })
     .on('dragEnd', function () {
-      $dragHandler.data('container').removeClass('is-dragging')
       $dragHandler.removeAttr('style').data('mask').hide()
+      $dragHandler.data('container').removeClass('is-dragging')
+    })
+    .on('staticClick', function () {
+      this.emitEvent('dragEnd')
     })
 
   })
