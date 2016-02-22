@@ -5,6 +5,7 @@ var ext  = require('object-assign')
 var fs   = require('fs')
 var path = require('path')
 var parseJade = require('./parse-jade')
+var jade = require('jade')
 
 module.exports = function (themeopts) {
   // set theme options object
@@ -24,20 +25,22 @@ module.exports = function (themeopts) {
 
   // set example conf
   themeopts.examples = ext({
-    base:    '',
-    target:  '_self',
-    css:     ['style.css'],
-    js:      [],
-    bodyjs:  [],
-    htmlcss: 'background:none;border:0;clip:auto;display:block;height:auto;margin:0;padding:0;position:static;width:auto;overflow:hidden',
-    bodycss: 'background:none;border:0;clip:auto;display:block;height:auto;margin:0;padding:16px;position:static;width:auto;overflow:hidden'
+    base: '',
+    target: '_self',
+    css: ['style.css'],
+    js: [],
+    bodyjs: [],
+    htmlcss: 'background:none;border:0;clip:auto;display:block;height:auto;margin:0;' +
+      'padding:0;position:static;width:auto;overflow:hidden',
+    bodycss: 'background:none;border:0;clip:auto;display:block;height:auto;margin:0;' +
+      'padding:16px;position:static;width:auto;overflow:hidden'
   }, themeopts.examples)
 
   // return theme
   return function (docs) {
     // set assets directory and template
     docs.assets   = path.join(__dirname, 'assets')
-    docs.template = path.join(__dirname, 'template.ejs')
+    docs.template = path.join(__dirname, 'template.jade')
 
     // set theme options
     docs.themeopts = themeopts
@@ -56,7 +59,9 @@ module.exports = function (themeopts) {
           docs.list.forEach(parseJade)
 
           // set compiled template
-          docs.template = ejs.compile(contents)(docs)
+          docs.template = jade.compile(contents, {})(docs)
+
+          console.log(docs.template)
 
           // resolve docs
           resolve(docs)

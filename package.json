@@ -13,34 +13,17 @@
   "repository": "fabianonunes/mdcss-theme-fabianonunes",
   "dependencies": {
     "draggabilly": "^2.1.0",
-    "ejs": "^2.4.1",
-    "jade-loader": "^0.8.0",
     "jquery": "^2.2.0",
-    "object-assign": "^4.0.1",
     "prismjs": "^1.4.1"
   },
   "devDependencies": {
     "cheerio": "^0.20.0",
+    "object-assign": "^4.0.1",
+    "jade-loader": "^0.8.0",
     "jade": "^1.11.0",
     "mdcss": "^1.5.0",
     "tap-spec": "^4.1.1",
     "tape": "^4.4.0",
     "webpack": "^1.12.13"
-  },
-  "scripts": {
-    "lint": "eslint . --ignore-path .eshintignore",
-    "tape": "tape test.js | tap-spec",
-    "test": "npm run lint && npm run tape",
-    "watch": "tape watch.js"
-  },
-  "watch": {
-    "test": [
-      "assets",
-      "template.ejs"
-    ]
-  },
-  "engines": {
-    "iojs": ">=2.0.0",
-    "node": ">=0.12.0"
   }
 }
