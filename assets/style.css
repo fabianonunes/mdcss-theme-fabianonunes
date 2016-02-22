@@ -464,6 +464,7 @@ p {
 
 .iframe-wrapper {
 	position: relative;
+  padding-right: 8px;
 }
 
 .iframe-wrapper > iframe {
@@ -691,9 +692,9 @@ perferendis quam! Ullam, debitis ab maiores.
 
 .drag-handler {
 	position: absolute;
-	right: -8px;
-	top: 0px;
-	bottom: 0px;
+	right: 0;
+	top: 0;
+	bottom: 0;
 	cursor: ew-resize;
 	z-index: 2;
 	background: #ddd;
