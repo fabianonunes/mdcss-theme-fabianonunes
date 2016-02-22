@@ -37,7 +37,8 @@ module.exports = function () {
 
     // conditionally create code examples
     if (conf.example in examples.lang) {
-      examples.lang[conf.example]($pre, text, conf)
+      var id = $pre.closest('section[id]').attr('id')
+      examples.lang[conf.example]($pre, text, conf, id)
 
       if (!(conf.lang in Prism.languages)) {
         $pre.remove()

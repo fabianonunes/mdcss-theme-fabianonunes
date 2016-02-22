@@ -1,9 +1,10 @@
-/* global examples, window */
+/* global examples */
 
 'use strict'
 
 var $ = require('jquery')
 var colorsUtils = require('./colors-utils')
+var uniqueId = require('lodash/uniqueId')
 
 var templates = {
   wrapper: require('./templates/wrapper.jade'),
@@ -26,7 +27,9 @@ module.exports.lang = {
       })
   },
 
-  html: function ($pre, value, conf) {
+  html: function ($pre, value, conf, sectionId) {
+
+    conf.iframeId = uniqueId(sectionId)
 
     var $wrap = $(templates.wrapper(conf)).insertBefore($pre)
 

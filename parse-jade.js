@@ -1,7 +1,13 @@
 'use strict'
 
 var $    = require('cheerio')
-var jade = require('jade')
+
+var parsers = {
+  jade: function (template) {
+    var jade = require('jade')
+    return jade.compile(template, { pretty: '  ' })().trim()
+  }
+}
 
 module.exports = function parseJade(obj) {
 
@@ -15,11 +21,13 @@ module.exports = function parseJade(obj) {
         $('<div class="codecollapse">···</div>').insertAfter($(this))
       })
 
-      $content.find('code[class="lang-example:jade"]').each(function (i, code) {
-        var $code = $(code)
-        var template = jade.compile($code.text(), { pretty: '  ' })
-        $code.text(template().trim())
-        $code.attr('class', 'lang-example:html')
+      $content.find('code[class^="lang-example:"]').each(function () {
+        var $code = $(this)
+        var lang = $code.attr('class').split(':')[1]
+        if (lang in parsers) {
+          $code.text(parsers[lang]($code.text()))
+          $code.attr('class', 'lang-example:html')
+        }
       })
 
       if ($content.length) {
