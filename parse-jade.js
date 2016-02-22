@@ -9,13 +9,13 @@ module.exports = function parseJade(obj) {
 
     obj.children.forEach(function (child) {
 
-      var $content = $('<div id="_wrapper_">' + child.content + '</div>')
+      var $content = $('<div>' + child.content + '</div>')
 
       $content.find('pre').each(function () {
         $('<div class="codecollapse">···</div>').insertAfter($(this))
       })
 
-      $content.find('code[class=\'lang-example:jade\']').each(function (i, code) {
+      $content.find('code[class="lang-example:jade"]').each(function (i, code) {
         var $code = $(code)
         var template = jade.compile($code.text(), { pretty: '  ' })
         $code.text(template().trim())
