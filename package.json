@@ -10,28 +10,22 @@
   ],
   "author": "Jonathan Neal <jonathantneal@hotmail.com> (http://jonathantneal.com)",
   "license": "CC0-1.0",
-  "repository": "jonathantneal/mdcss-github-theme",
-  "bugs": "https://github.com/jonathantneal/mdcss-github-theme/issues",
-  "homepage": "https://github.com/jonathantneal/mdcss-github-theme#readme",
+  "repository": "fabianonunes/mdcss-theme-fabianonunes",
   "dependencies": {
-    "cheerio": "^0.20.0",
     "draggabilly": "^2.1.0",
     "ejs": "^2.4.1",
     "jade-loader": "^0.8.0",
     "jquery": "^2.2.0",
     "object-assign": "^4.0.1",
-    "prism": "^1.0.0",
-    "prismjs": "^1.4.1",
-    "webpack": "^1.12.13"
+    "prismjs": "^1.4.1"
   },
   "devDependencies": {
-    "chokidar": "^1.4.2",
-    "eslint": "^1.10.3",
+    "cheerio": "^0.20.0",
     "jade": "^1.11.0",
     "mdcss": "^1.5.0",
     "tap-spec": "^4.1.1",
     "tape": "^4.4.0",
-    "watch": "^0.17.1"
+    "webpack": "^1.12.13"
   },
   "scripts": {
     "lint": "eslint . --ignore-path .eshintignore",
