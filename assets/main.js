@@ -3,9 +3,9 @@
 'use strict'
 
 var $ = require('jquery')
-var Prism = require('prism')
+var Prism = require('prismjs')
 var examples = require('./examples')
-require('draggabilly')
+var Draggabilly = require('draggabilly')
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -58,33 +58,37 @@ document.addEventListener('DOMContentLoaded', function () {
     $this.closest('.iframe-wrapper').width($this.data('width'))
   })
 
-  $('.drag-handler').draggabilly({
-    axis: 'x'
-  })
-  .on('pointerDown', function () {
-    var $dragHandler = $(this)
-    var $container = $dragHandler.closest('.iframe-wrapper')
-    var $mask = $container.find('.drag-mask')
-    var containerWidth = $container.width()
+  $('.drag-handler').each(function () {
 
-    $mask.show()
-    $container.addClass('is-dragging')
-    $dragHandler
-      .css({ left: containerWidth - $dragHandler.outerWidth() })
-      .data('container', $container)
-      .data('mask', $mask)
-      .data('container-width', containerWidth)
-  })
-  .on('dragMove', function (evt, pointer, vector) {
     var $dragHandler = $(this)
-    $dragHandler.data('container').width(
-      $dragHandler.data('container-width') + vector.x
-    )
-  })
-  .on('dragEnd', function () {
-    var $dragHandler = $(this)
-    $dragHandler.data('container').removeClass('is-dragging')
-    $dragHandler.removeAttr('style').data('mask').hide()
+
+    var draggie = new Draggabilly(this, {
+      axis: 'x'
+    })
+
+    draggie.on('pointerDown', function () {
+      var $container = $dragHandler.closest('.iframe-wrapper')
+      var $mask = $container.find('.drag-mask')
+      var containerWidth = $container.width()
+
+      $mask.show()
+      $container.addClass('is-dragging')
+      $dragHandler
+        .css({ left: containerWidth - $dragHandler.outerWidth() })
+        .data('container', $container)
+        .data('mask', $mask)
+        .data('container-width', containerWidth)
+    })
+    .on('dragMove', function (evt, pointer, vector) {
+      $dragHandler.data('container').width(
+        $dragHandler.data('container-width') + vector.x
+      )
+    })
+    .on('dragEnd', function () {
+      $dragHandler.data('container').removeClass('is-dragging')
+      $dragHandler.removeAttr('style').data('mask').hide()
+    })
+
   })
 
 })

@@ -5,6 +5,7 @@
 var $ = require('jquery')
 
 var colorUtils = {
+
   parseLine: function (line) {
     var color = {}
     var match = /@([^:]+):\s*(.+?)(?=\s+@|$)/g
