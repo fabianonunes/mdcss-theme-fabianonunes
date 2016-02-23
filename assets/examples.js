@@ -4,12 +4,22 @@
 
 var $ = require('jquery')
 var colorsUtils = require('./colors-utils')
-var uniqueId = require('lodash/uniqueId')
 
 var templates = {
   wrapper: require('./templates/wrapper.jade'),
   iframe: require('./templates/iframe.jade')
 }
+
+var uniqueId = (function () {
+  var stash = {}
+  return function (preffix) {
+    if (!(preffix in stash)) {
+      stash[preffix] = []
+    }
+
+    return preffix +  '_' + stash[preffix].push(1)
+  }
+})()
 
 module.exports.lang = {
 
