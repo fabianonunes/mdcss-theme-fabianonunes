@@ -1,6 +1,5 @@
 'use strict'
 
-var ejs  = require('ejs')
 var ext  = require('object-assign')
 var fs   = require('fs')
 var path = require('path')

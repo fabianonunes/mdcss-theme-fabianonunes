@@ -12,17 +12,16 @@
   "license": "CC0-1.0",
   "repository": "fabianonunes/mdcss-theme-fabianonunes",
   "dependencies": {
-    "draggabilly": "^2.1.0",
-    "jquery": "^2.2.0",
-    "lodash": "^4.5.1",
-    "prismjs": "^1.4.1"
+    "cheerio": "^0.20.0",
+    "jade": "^1.11.0",
+    "object-assign": "^4.0.1",
   },
   "devDependencies": {
-    "cheerio": "^0.20.0",
-    "object-assign": "^4.0.1",
+    "draggabilly": "^2.1.0",
     "jade-loader": "^0.8.0",
-    "jade": "^1.11.0",
+    "jquery": "^2.2.0",
     "mdcss": "^1.5.0",
+    "prismjs": "^1.4.1",
     "tap-spec": "^4.1.1",
     "tape": "^4.4.0",
     "webpack": "^1.12.13"
