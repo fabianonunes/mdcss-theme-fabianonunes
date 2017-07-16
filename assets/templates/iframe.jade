@@ -1,0 +1,37 @@
+html(style=examples.htmlcss)
+  base(href=examples.jade, target=examples.target)
+
+  each css in examples.css
+    link(href=css rel="stylesheet")
+
+  each js in examples.js
+    script(src=js)
+
+  body#sfcss(style=examples.bodycss)
+    #contentWrapper
+      != value
+
+    each js in examples.bodyjs
+      script(src=js)
+
+    script.
+      var documentElement = document.documentElement
+      var $iframe = window._containerIframe
+      var scrollHeight
+
+      var raf = window.requestAnimationFrame || function (fn) {
+        setTimeout(fn, 16.667)
+      }
+
+      function resize() {
+        var currentScrollHeight = document.getElementById('contentWrapper').offsetHeight
+        if (scrollHeight !== currentScrollHeight) {
+          scrollHeight = currentScrollHeight
+          $iframe.css({ height: 0 })
+          var iframeH = documentElement.scrollHeight + ($iframe[0].offsetHeight - window.innerHeight)
+          $iframe.css({ height: iframeH + 'px' })
+        }
+        raf(resize)
+      }
+
+      raf(resize)
