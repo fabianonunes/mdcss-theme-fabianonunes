@@ -16,6 +16,7 @@
   "repository": "fabianonunes/mdcss-theme-fabianonunes",
   "dependencies": {
     "cheerio": "^0.20.0",
+    "pug": "^2.0.3",
     "object-assign": "^4.0.1"
   },
   "devDependencies": {
@@ -23,7 +24,6 @@
     "jquery": "^2.2.0",
     "mdcss": "^1.5.0",
     "prismjs": "^1.4.1",
-    "pug": "^2.0.3",
     "pug-loader": "^2.4.0",
     "tap-spec": "^4.1.1",
     "tape": "^4.4.0",
