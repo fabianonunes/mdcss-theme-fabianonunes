@@ -2,6 +2,9 @@
   "name": "mdcss-theme-fabianonunes",
   "version": "2.2.0",
   "description": "GitHub flavored theme for mdcss",
+  "scripts": {
+    "build": "webpack --mode production"
+  },
   "keywords": [
     "mdcss",
     "mdcss-theme",
