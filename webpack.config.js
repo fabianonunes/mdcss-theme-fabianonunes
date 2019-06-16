@@ -12,7 +12,7 @@ module.exports = {
   },
   module: {
     loaders: [
-        { test: /\.jade$/, loader: 'jade-loader' }
+        { test: /\.pug$/, loader: 'pug-loader' }
     ]
   },
   resolve: {

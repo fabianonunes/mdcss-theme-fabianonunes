@@ -4,12 +4,12 @@ var $    = require('cheerio')
 
 var parsers = {
   jade: function (template) {
-    var jade = require('jade')
-    return jade.compile(template, { pretty: '  ' })().trim()
+    var pug = require('pug')
+    return pug.compile(template, { pretty: '  ' })().trim()
   }
 }
 
-module.exports = function parseJade(obj) {
+module.exports = function parsePug(obj) {
 
   if (obj.children) {
 
@@ -35,7 +35,7 @@ module.exports = function parseJade(obj) {
       }
 
       if (child.children) {
-        parseJade(child)
+        parsePug(child)
       }
 
     })

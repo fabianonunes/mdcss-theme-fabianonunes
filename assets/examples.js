@@ -6,8 +6,8 @@ var $ = require('jquery')
 var colorsUtils = require('./colors-utils')
 
 var templates = {
-  wrapper: require('./templates/wrapper.jade'),
-  iframe: require('./templates/iframe.jade')
+  wrapper: require('./templates/wrapper.pug'),
+  iframe: require('./templates/iframe.pug')
 }
 
 var uniqueId = (function () {

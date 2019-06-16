@@ -3,8 +3,8 @@
 var ext  = require('object-assign')
 var fs   = require('fs')
 var path = require('path')
-var parseJade = require('./parse-jade')
-var jade = require('jade')
+var parsePug = require('./parse-pug')
+var pug = require('pug')
 
 module.exports = function (themeopts) {
   // set theme options object
@@ -39,7 +39,7 @@ module.exports = function (themeopts) {
   return function (docs) {
     // set assets directory and template
     docs.assets   = path.join(__dirname, 'assets')
-    docs.template = path.join(__dirname, 'template.jade')
+    docs.template = path.join(__dirname, 'template.pug')
 
     // set theme options
     docs.themeopts = themeopts
@@ -55,10 +55,10 @@ module.exports = function (themeopts) {
           // set examples options
           docs.opts = ext({}, docs.opts, docs.themeopts)
 
-          docs.list.forEach(parseJade)
+          docs.list.forEach(parsePug)
 
           // set compiled template
-          docs.template = jade.compile(contents, {})(docs)
+          docs.template = pug.compile(contents, {})(docs)
 
           // resolve docs
           resolve(docs)
